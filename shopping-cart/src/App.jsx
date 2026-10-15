@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import ProductCard from './ProductCard'
+import ProductList from './ProductList'
+import { products } from "./data/products";
 import './App.css'
 
 function App() {
@@ -9,7 +9,11 @@ function App() {
 
   return (
     <>
-      
+       <div className="min-h-screen bg-gray-50 p-8">
+      <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
+     
+      <ProductList products={products} onAdd={() => {}} />
+    </div>
     </>
   )
 }
