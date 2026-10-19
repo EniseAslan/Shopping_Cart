@@ -1,11 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ProductList from './ProductList'
 import Cart from './Cart'
 import { products } from './data/products'
 import './App.css'
 
+
+const STORAGE_KEY ='shopping-cart'
+
 function App() {
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState(()=>{
+
+try{
+  const raw=localStorage.getItem(STORAGE_KEY)
+  return raw ? JSON.parse(raw):[]
+} catch{ return []}
+
+  })
+
+  useEffect(()=>{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart))
+  },[cart])
+
+
 
   function addToCart(product) {
     setCart((old) => {
@@ -39,6 +55,10 @@ function App() {
     setCart((old) => old.filter((o) => o.id !== id))
   }
 
+  function handleClear(){
+    setCart([]);
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
@@ -52,6 +72,7 @@ function App() {
           onInc={handleInc}
           onDec={handleDec}
           onRemove={handleRemove}
+          onClear={handleClear}
         />
       </div>
     </div>

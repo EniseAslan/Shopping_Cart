@@ -28,7 +28,7 @@ function CartItem({ item, onInc, onDec, onRemove }) {
         onClick={() => onRemove(item.id)}
         className="text-sm text-red-500 hover:text-red-700"
       >
-        Kaldır
+        Remove
       </button>
     </div>
   )

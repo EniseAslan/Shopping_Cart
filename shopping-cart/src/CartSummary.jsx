@@ -5,11 +5,11 @@ function CartSummary({ cart }) {
   return (
     <div className="mt-4 pt-4 border-t-2">
       <div className="flex justify-between text-gray-600">
-        <span>Toplam ürün</span>
-        <span>{totalCount} adet</span>
+        <span>Total İtems</span>
+        <span>{totalCount} Qty</span>
       </div>
       <div className="flex justify-between text-lg font-bold text-gray-800 mt-1">
-        <span>Toplam tutar</span>
+        <span>Total Amount</span>
         <span>${totalPrice.toFixed(2)}</span>
       </div>
     </div>
