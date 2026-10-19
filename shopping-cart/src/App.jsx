@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react'
 import ProductList from './ProductList'
 import Cart from './Cart'
 import { products } from './data/products'
+import { PROMOS } from './data/promos'
 import './App.css'
 
 
 const STORAGE_KEY ='shopping-cart'
+const PROMO_KEY='shopping-cart-promo'
 
 function App() {
   const [cart, setCart] = useState(()=>{
+
+
 
 try{
   const raw=localStorage.getItem(STORAGE_KEY)
@@ -21,6 +25,38 @@ try{
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cart))
   },[cart])
 
+
+  //Promo 
+
+  const [promoCode,setPromoCode]=useState(()=>{
+
+    try{
+      const raw= localStorage.getItem(PROMO_KEY)
+      return raw || null
+    }catch{return null}
+  })
+
+  useEffect(()=>{
+    if(promoCode){
+      localStorage.setItem(PROMO_KEY,promoCode)
+    }else{
+      localStorage.removeItem(PROMO_KEY)
+    }
+  },[promoCode])
+
+
+   function applyPromo(code) {
+    const normalized = code.trim().toUpperCase()
+    if (PROMOS[normalized]) {
+      setPromoCode(normalized)
+      return { ok: true }
+    }
+    return { ok: false, message: 'Invalid promo code' }
+  }
+
+  function removePromo() {
+    setPromoCode(null)
+  }
 
 
   function addToCart(product) {
@@ -58,12 +94,15 @@ try{
     )
   }
 
-  function handleRemove(id) {
-    setCart((old) => old.filter((o) => o.id !== id))
-  }
+function handleRemove(id) {
+  const next = cart.filter((o) => o.id !== id)
+  setCart(next)
+  if (next.length === 0) setPromoCode(null)
+}
 
   function handleClear(){
     setCart([]);
+    setPromoCode(null)
   }
 
   return (
@@ -80,6 +119,9 @@ try{
           onDec={handleDec}
           onRemove={handleRemove}
           onClear={handleClear}
+          promoCode={promoCode}
+          onApplyPromo={applyPromo}
+          onRemovePromo={removePromo}
         />
       </div>
     </div>
