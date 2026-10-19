@@ -4,7 +4,8 @@ function CartItem({ item, onInc, onDec, onRemove }) {
       <div className="flex-1">
         <p className="font-medium text-gray-800">{item.name}</p>
         <p className="text-sm text-gray-500">
-          ${item.price.toFixed(2)} × {item.qty} = ${(item.price * item.qty).toFixed(2)}
+          ${item.price.toFixed(2)} × {item.qty} = $
+          {(item.price * item.qty).toFixed(2)}
         </p>
       </div>
 
@@ -18,7 +19,8 @@ function CartItem({ item, onInc, onDec, onRemove }) {
         <span className="w-6 text-center">{item.qty}</span>
         <button
           onClick={() => onInc(item.id)}
-          className="w-7 h-7 rounded bg-gray-200 hover:bg-gray-300"
+          disabled={item.qty >= item.stock}
+          className="w-7 h-7 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           +
         </button>
@@ -31,7 +33,7 @@ function CartItem({ item, onInc, onDec, onRemove }) {
         Remove
       </button>
     </div>
-  )
+  );
 }
 
-export default CartItem
+export default CartItem;

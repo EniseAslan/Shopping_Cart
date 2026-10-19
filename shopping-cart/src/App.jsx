@@ -26,6 +26,9 @@ try{
   function addToCart(product) {
     setCart((old) => {
       const found = old.find((e) => e.id === product.id)
+      const currentQty=found ? found.qty :0
+
+      if(currentQty>= product.stock) return old
 
       if (found) {
         return old.map((e) =>
@@ -37,11 +40,15 @@ try{
     })
   }
 
-  function handleInc(id) {
-    setCart((old) =>
-      old.map((o) => (o.id === id ? { ...o, qty: o.qty + 1 } : o))
-    )
-  }
+ function handleInc(id) {
+  setCart((old) =>
+    old.map((o) => {
+      if (o.id !== id) return o
+      if (o.qty >= o.stock) return o 
+      return { ...o, qty: o.qty + 1 }
+    })
+  )
+}
 
   function handleDec(id) {
     setCart((old) =>
@@ -65,7 +72,7 @@ try{
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <ProductList products={products} onAdd={addToCart} />
+          <ProductList products={products} onAdd={addToCart} cart={cart} />
         </div>
         <Cart
           cart={cart}
