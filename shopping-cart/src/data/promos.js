@@ -1,4 +1,5 @@
-// data/promos.js
+//Promosyon mesajları
+
 export const PROMOS = {
   SAVE10: { type: 'percent', value: 10 },  
   SAVE50: { type: 'fixed',   value: 50 },  
