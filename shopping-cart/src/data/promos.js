@@ -1,4 +1,4 @@
-//Promosyon mesajları
+//Promo code
 
 export const PROMOS = {
   SAVE10: { type: 'percent', value: 10 },  
